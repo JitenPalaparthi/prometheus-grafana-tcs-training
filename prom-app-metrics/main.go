@@ -6,24 +6,25 @@ import (
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var pingCounter = prometheus.NewCounter(
+var pingCounter = promauto.NewCounter(
 	prometheus.CounterOpts{
 		Name: "prom_app_metrics_ping_request_count",
 		Help: "No of request handled by Ping handler",
 	},
 )
 
-var healthCounter = prometheus.NewCounter(
+var healthCounter = promauto.NewCounter(
 	prometheus.CounterOpts{
 		Name: "prom_app_metrics_health_request_count",
 		Help: "No of request handled by Health handler",
 	},
 )
 
-var rootCounter = prometheus.NewCounter(
+var rootCounter = promauto.NewCounter(
 	prometheus.CounterOpts{
 		Name: "prom_app_metrics_root_request_count",
 		Help: "No of request handled by root handler",
@@ -31,6 +32,8 @@ var rootCounter = prometheus.NewCounter(
 )
 
 func main() {
+
+	http.Handle("/metrics", promhttp.Handler())
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		rootCounter.Inc()
@@ -52,9 +55,7 @@ func main() {
 
 	log.Println("Server has started on port 2110")
 
-	http.Handle("/metrics", promhttp.Handler())
-
-	if err := http.ListenAndServe("0.0.0.0:2110", nil); err != nil {
+	if err := http.ListenAndServe(":2110", nil); err != nil {
 		log.Fatalln(err)
 	}
 }
