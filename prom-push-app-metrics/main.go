@@ -43,10 +43,10 @@ func main() {
 	dirCounter.Add(float64(dirCount))
 
 	fmt.Println("Total number of directories:", dirCount, "\nTotal number of files:", fileCount)
-	if err := push.New("http://localhost:9091", "prom-push-app").Collector(fileCounter).Push(); err != nil {
+	if err := push.New("http://localhost:9091", "prom-push-app-fc").Collector(fileCounter).Push(); err != nil {
 		fmt.Println(err)
 	}
-	if err := push.New("http://localhost:9091", "prom-push-app").Collector(dirCounter).Push(); err != nil {
+	if err := push.New("http://localhost:9091", "prom-push-app-dc").Collector(dirCounter).Push(); err != nil {
 		fmt.Println(err)
 	}
 }
