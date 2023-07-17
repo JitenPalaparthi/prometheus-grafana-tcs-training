@@ -15,12 +15,12 @@ var (
 	root                string
 	dirCount, fileCount uint32
 	fileCounter         = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "prom-push-app-fileCount",
+		Name: "prom_push_app_fileCount",
 		Help: "Number of files that the given path has",
 	})
 
 	dirCounter = prometheus.NewCounter(prometheus.CounterOpts{
-		Name: "prom-push-app-dirCount",
+		Name: "prom_push_app_dirCount",
 		Help: "Number of directories that the given path has",
 	})
 )
