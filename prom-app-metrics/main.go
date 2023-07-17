@@ -8,6 +8,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	_ "github.com/prometheus/client_golang/prometheus/push"
+)
+
+var AllCounter = promauto.NewCounter(
+	prometheus.CounterOpts{
+		Name: "prom_app_metrics_push_all_request_count",
+		Help: "No of request handled by all handlers",
+	},
 )
 
 var pingCounter = promauto.NewCounter(
@@ -29,6 +37,10 @@ var rootCounter = promauto.NewCounter(
 		Name: "prom_app_metrics_root_request_count",
 		Help: "No of request handled by root handler",
 	},
+)
+
+var (
+	globalCounterCh chan int
 )
 
 func main() {
